@@ -1,6 +1,6 @@
 {
   "name": "mime-detect",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A meta package to detect mime type and encoding (aka Content-Type) from buffer, file content and filename.",
   "keywords": [
     "mime",
