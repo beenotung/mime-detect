@@ -3,7 +3,7 @@ import { default as mimeType } from 'mime-type/with-db'
 
 mimeType.types['ts'] = 'text/typescript'
 
-interface DetectMimeCallback {
+export interface DetectMimeCallback {
   (error: Error, mime?: string): void
   (error: null, mime: string): void
 }

@@ -54,7 +54,7 @@ export function detectFilenameMime(file: string, mime?: string): string
 export function detectBufferMime(buffer: Buffer, cb: DetectMimeCallback): void
 export function detectBufferMime(buffer: Buffer): Promise<string>
 
-interface DetectMimeCallback {
+export interface DetectMimeCallback {
   (error: Error, mime?: string): void
   (error: null, mime: string): void
 }
