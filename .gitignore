@@ -2,3 +2,6 @@ sample
 *.tgz
 node_modules
 pnpm-lock.yaml
+*.js
+*.d.ts
+tsconfig.tsbuildinfo
