@@ -2,7 +2,15 @@
   "name": "mime-detect",
   "version": "0.0.0",
   "description": "A meta package to detect mime type and encoding (aka Content-Type) from buffer, file content and filename.",
-  "keywords": [],
+  "keywords": [
+    "mime",
+    "content-type",
+    "encoding",
+    "mime-type",
+    "format detect",
+    "magic number",
+    "typescript"
+  ],
   "author": {
     "name": "Beeno Tung",
     "email": "aabbcc1241@yahoo.com.hk",
