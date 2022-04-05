@@ -1,0 +1,19 @@
+{
+  "name": "mime-detect",
+  "version": "0.0.0",
+  "description": "A meta package to detect mime type and encoding (aka Content-Type) from buffer, file content and filename.",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beenotung/mime-detect.git"
+  },
+  "homepage": "https://github.com/beenotung/mime-detect#readme",
+  "bugs": {
+    "url": "https://github.com/beenotung/mime-detect/issues"
+  },
+  "main": "index.js",
+  "scripts": {},
+  "file": []
+}
