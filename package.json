@@ -3,8 +3,12 @@
   "version": "0.0.0",
   "description": "A meta package to detect mime type and encoding (aka Content-Type) from buffer, file content and filename.",
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": {
+    "name": "Beeno Tung",
+    "email": "aabbcc1241@yahoo.com.hk",
+    "url": "https://beeno-tung.surge.sh"
+  },
+  "license": "BSD-2-Clause",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/beenotung/mime-detect.git"
@@ -14,6 +18,7 @@
     "url": "https://github.com/beenotung/mime-detect/issues"
   },
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "dev": "tsc --watch",
     "test": "tsc --noEmit",
