@@ -2,18 +2,51 @@ import { readdirSync, readFileSync } from 'fs'
 import { join } from 'path'
 import { detectBufferMime, detectFileMime, detectFilenameMime } from './index'
 
-readdirSync('sample').forEach(file => {
-  file = join('sample', file)
-  let buffer = readFileSync(file)
-  detectBufferMime(buffer, (error, mime) => {
-    // detectFileMime(file, (error, mime) => {
-    if (error || mime?.includes('plain')) {
-      console.log({
-        file,
-        error,
-        contentMime: mime,
-        guess: mime ? detectFilenameMime(file, mime) : mime,
-      })
+let failed = false
+
+let samples: Record<string, [string, string] | string> = {
+  'data.csv': ['text/plain', 'text/csv'],
+  'data.json': 'application/json',
+  'image.bmp': 'image/bmp',
+  'image.gif': 'image/gif',
+  'image.jpg': 'image/jpeg',
+  'image.png': 'image/png',
+  'image.svg': 'image/svg',
+  'image.xhtml': 'text/xml',
+  'image.html': 'text/html',
+  'web-doc.html': 'text/html',
+  'web-html.html': 'text/html',
+  'web-map.html': ['text/plain', 'text/html'],
+}
+
+async function main() {
+  let files = readdirSync('sample')
+  for (let file of files) {
+    let type = samples[file] || '?'
+    let bufferMime = Array.isArray(type) ? type[0] : type
+    let fileMime = Array.isArray(type) ? type[1] : type
+    file = join('sample', file)
+    let buffer = readFileSync(file)
+    let res = await detectBufferMime(buffer)
+    if (!res.startsWith(bufferMime)) {
+      failed = true
+      console.error(
+        `detectBufferMime on ${file} failed: expect ${type}, got ${res}`,
+      )
+      continue
     }
-  })
-})
+    res = await detectFileMime(file)
+    if (!res.startsWith(fileMime)) {
+      failed = true
+      console.error(
+        `detectFileMime on ${file} failed: expect ${type}, got ${res}`,
+      )
+      continue
+    }
+    console.log(`passed:`, file, type)
+  }
+  if (failed) {
+    process.exit(1)
+  }
+}
+main()
