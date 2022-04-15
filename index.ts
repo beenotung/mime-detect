@@ -1,4 +1,4 @@
-import { exec } from 'child_process'
+import { exec, spawn } from 'child_process'
 import { default as mimeType } from 'mime-type/with-db'
 
 mimeType.types['ts'] = 'text/typescript'
@@ -25,14 +25,19 @@ export function detectFileMime(
       ),
     )
   }
-  exec(`file -bE --mime ${JSON.stringify(file)}`, (error, stdout, stderr) => {
-    if (error) {
-      if (stdout.includes('No such file or directory')) {
+  let child = spawn('file', ['-bE', '--mime', file])
+  let stdout = ''
+  let stderr = ''
+  child.stdout.on('data', chunk => (stdout += chunk))
+  child.stderr.on('data', chunk => (stderr += chunk))
+  child.on('close', code => {
+    if (code !== 0) {
+      let message = (stdout + ' ' + stderr).trim()
+      if (message.includes('No such file or directory')) {
         cb(new Error('No such file or directory'))
         return
       }
-      let message = (stdout + ' ' + stderr).trim()
-      cb(message ? new Error(message) : error)
+      cb(new Error(message))
       return
     }
     let mime = stdout.trim()
