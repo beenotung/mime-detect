@@ -17,11 +17,12 @@ let samples: Record<string, [string, string] | string> = {
   'web-doc.html': 'text/html',
   'web-html.html': 'text/html',
   'web-map.html': ['text/plain', 'text/html'],
+  '$HOME.txt': 'text/plain',
 }
 
 async function main() {
   let files = readdirSync('sample')
-  for (let file of files) {
+  async function test(file: string) {
     let type = samples[file] || '?'
     let bufferMime = Array.isArray(type) ? type[0] : type
     let fileMime = Array.isArray(type) ? type[1] : type
@@ -33,7 +34,7 @@ async function main() {
       console.error(
         `detectBufferMime on ${file} failed: expect ${type}, got ${res}`,
       )
-      continue
+      return
     }
     res = await detectFileMime(file)
     if (!res.startsWith(fileMime)) {
@@ -41,9 +42,12 @@ async function main() {
       console.error(
         `detectFileMime on ${file} failed: expect ${type}, got ${res}`,
       )
-      continue
+      return
     }
     console.log(`passed:`, file, type)
+  }
+  for (let file of files) {
+    await test(file).catch(error => console.error('failed:', { file, error }))
   }
   if (failed) {
     process.exit(1)
