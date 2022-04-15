@@ -33,8 +33,8 @@
   ],
   "scripts": {
     "dev": "tsc --watch",
-    "test": "tsc --noEmit",
-    "build": "tsc -p ."
+    "test": "make test",
+    "build": "make build"
   },
   "dependencies": {
     "mime-db": "^1.52.0",
