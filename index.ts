@@ -87,7 +87,9 @@ export function detectBufferMime(
     cb(null,binaryPrefix)
     return
   }
-  let child = exec(`file -bE --mime -`, (error, stdout, stderr) => {
+  let childError: any
+  let child = exec(`file -bE --mime -`, {}, (error, stdout, stderr) => {
+    if (childError) return
     if (error) {
       let message = (stdout + ' ' + stderr).trim()
       cb(message ? new Error(message) : error)
@@ -101,5 +103,13 @@ export function detectBufferMime(
   })
   if (child.stdin) {
     child.stdin.write(buffer)
+    child.stdin.on('error', (error: any) => {
+      if (error.code === 'EPIPE') {
+        // early terminate before the mime is already detected
+        return
+      }
+      childError = error
+      cb(error)
+    })
   }
 }
