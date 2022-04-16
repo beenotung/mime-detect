@@ -4,7 +4,7 @@ import { detectBufferMime, detectFileMime, detectFilenameMime } from './index'
 
 let failed = false
 
-let samples: Record<string, [string, string] | string> = {
+let samples: Record<string, [bufferMime: string, fileMime: string] | string> = {
   'data.csv': ['text/plain', 'text/csv'],
   'data.json': 'application/json',
   'image.bmp': 'image/bmp',
@@ -18,6 +18,7 @@ let samples: Record<string, [string, string] | string> = {
   'web-html.html': 'text/html',
   'web-map.html': ['text/plain', 'text/html'],
   '$HOME.txt': 'text/plain',
+  empty: ['application/octet-stream', 'inode/x-empty'],
 }
 
 async function main() {

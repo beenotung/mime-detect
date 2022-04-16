@@ -83,6 +83,10 @@ export function detectBufferMime(
       ),
     )
   }
+  if (buffer.length === 0) {
+    cb(null,binaryPrefix)
+    return
+  }
   let child = exec(`file -bE --mime -`, (error, stdout, stderr) => {
     if (error) {
       let message = (stdout + ' ' + stderr).trim()
