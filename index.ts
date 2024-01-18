@@ -1,7 +1,9 @@
-import { exec, spawn } from 'child_process'
-import { default as mimeType } from 'mime-type/with-db'
+import type { exec, spawn } from 'child_process'
+import { ext_to_mime } from './mime.types'
 
-mimeType.types['ts'] = 'text/typescript'
+export function enableTypescriptMime(mime = 'text/typescript') {
+  ext_to_mime.ts = mime
+}
 
 export interface DetectMimeCallback {
   (error: Error, mime?: string): void
@@ -25,6 +27,7 @@ export function detectFileMime(
       ),
     )
   }
+  let { spawn } = child_process()
   let child = spawn('file', ['-bE', '--mime', file])
   let stdout = ''
   let stderr = ''
@@ -51,7 +54,7 @@ export function detectFileMime(
 
 export function detectFilenameMime(
   file: string,
-  mime: string = 'application/octet-stream',
+  mime: string = binaryPrefix,
 ): string {
   let prefix = mime.startsWith(plainTextPrefix)
     ? plainTextPrefix
@@ -60,11 +63,10 @@ export function detectFilenameMime(
     : undefined
 
   if (prefix) {
-    let result = mimeType.lookup(file)
-    if (typeof result === 'string') {
+    let ext = file.split('.').pop()!
+    let result = ext_to_mime[ext as 'txt']
+    if (result) {
       mime = result + mime.slice(prefix.length)
-    } else if (Array.isArray(result) && result[0]) {
-      mime = result[0] + mime.slice(prefix.length)
     }
   }
   return mime
@@ -84,9 +86,10 @@ export function detectBufferMime(
     )
   }
   if (buffer.length === 0) {
-    cb(null,binaryPrefix)
+    cb(null, binaryPrefix)
     return
   }
+  let { exec } = child_process()
   let childError: any
   let child = exec(`file -bE --mime -`, {}, (error, stdout, stderr) => {
     if (childError) return
@@ -112,4 +115,10 @@ export function detectBufferMime(
       cb(error)
     })
   }
+}
+
+// using eval to avoid error when bundling with esbuild
+// at least detectFilenameMime() is usable in browser
+function child_process(): { exec: typeof exec; spawn: typeof spawn } {
+  return eval('require("child_process")')
 }

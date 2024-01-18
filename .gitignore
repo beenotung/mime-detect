@@ -4,3 +4,4 @@ pnpm-lock.yaml
 *.js
 *.d.ts
 tsconfig.tsbuildinfo
+mime.types.ts

@@ -37,13 +37,14 @@
     "build": "make build"
   },
   "dependencies": {
-    "mime-db": "^1.52.0",
-    "mime-type": "^4.0.0"
+    "mime-db": "^1.52.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.23",
+    "esbuild": "^0.19.11",
     "ts-node": "^10.7.0",
     "ts-node-dev": "^1.1.8",
+    "tsc-macro": "^1.0.1",
     "typescript": "^4.6.3"
   }
 }
