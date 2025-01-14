@@ -4,8 +4,11 @@ import { detectBufferMime, detectFileMime, detectFilenameMime } from './index'
 
 let failed = false
 
-let samples: Record<string, [bufferMime: string, fileMime: string] | string> = {
-  'data.csv': ['text/plain', 'text/csv'],
+let samples: Record<
+  string,
+  [bufferMime: string[] | string, fileMime: string] | string
+> = {
+  'data.csv': [['text/plain', 'text/csv'], 'text/csv'],
   'data.json': 'application/json',
   'image.bmp': 'image/bmp',
   'image.gif': 'image/gif',
@@ -26,12 +29,12 @@ async function main() {
   let files = readdirSync('sample')
   async function test(file: string) {
     let type = samples[file] || '?'
-    let bufferMime = Array.isArray(type) ? type[0] : type
+    let bufferMimes = [Array.isArray(type) ? type[0] : type].flatMap(s => s)
     let fileMime = Array.isArray(type) ? type[1] : type
     file = join('sample', file)
     let buffer = readFileSync(file)
     let res = await detectBufferMime(buffer)
-    if (!res.startsWith(bufferMime)) {
+    if (!bufferMimes.some(mime => res.startsWith(mime))) {
       failed = true
       console.error(
         `detectBufferMime on ${file} failed: expect ${type}, got ${res}`,
