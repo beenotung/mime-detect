@@ -1,5 +1,6 @@
 import type { exec, spawn } from 'child_process'
 import { ext_to_mime } from './mime.types'
+import { mime_to_ext } from './mime.ext'
 
 export function enableTypescriptMime(mime = 'text/typescript') {
   ext_to_mime.ts = mime
@@ -115,6 +116,29 @@ export function detectBufferMime(
       cb(error)
     })
   }
+}
+
+/**
+ * @description return file extension name without dot
+ * e.g. "audio/mp4" -> "m4a"
+ * e.g. "video/x-matroska" -> "mkv"
+ * e.g. "image/jpeg" -> "jpg"
+ * e.g. "application/octet-stream" -> "bin"
+ */
+export function mimeToExt(mime: string): string {
+  mime = mime.split(';')[0]
+  let ext = mime_to_ext[mime as 'audio/mp4']
+  if (ext) return ext
+  let exts = Object.entries(ext_to_mime)
+    .filter(([key, value]) => value == mime)
+    .map(([key]) => key)
+  if (exts.length > 1) {
+    console.warn(`multiple extensions matched:`, { mime, exts })
+  }
+  if (exts.length == 1) {
+    return exts[0]
+  }
+  return mime.split('/').pop()!
 }
 
 // using eval to avoid error when bundling with esbuild

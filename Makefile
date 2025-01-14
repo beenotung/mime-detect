@@ -8,7 +8,7 @@ build: index.js
 test: test.js index.js
 	node test.js
 
-index.js: index.ts mime.types.ts
+index.js: index.ts mime.types.ts mime.ext.ts
 	npx tsc -p .
 
 mime.types.ts: mime.types.macro.ts

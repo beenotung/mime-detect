@@ -61,6 +61,13 @@ export interface DetectMimeCallback {
   (error: Error, mime?: string): void
   (error: null, mime: string): void
 }
+
+/**
+ * @description return file extension name without dot
+ * e.g. "audio/mp4" -> "m4a"
+ * e.g. "video/x-matroska" -> "mkv"
+ */
+export function mimeToExt(mime: string): string
 ```
 
 ## License
