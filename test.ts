@@ -19,7 +19,7 @@ let samples: Record<string, [bufferMime: string, fileMime: string] | string> = {
   'web-map.html': ['text/plain', 'text/html'],
   '$HOME.txt': 'text/plain',
   'large.txt': 'text/plain',
-  empty: ['application/octet-stream', 'inode/x-empty'],
+  'empty': ['application/octet-stream', 'inode/x-empty'],
 }
 
 async function main() {
