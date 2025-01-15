@@ -38,6 +38,8 @@ let extSamples: Record<string, string> = {
   'video/vnd.avi': 'avi',
   'video/quicktime': 'mov',
   'video/x-matroska': 'mkv',
+  'video/3gpp': '3gp',
+  'video/x-flv': 'flv',
   'video/mp4': 'mp4',
   'text/plain': 'txt',
   'text/csv': 'csv',
