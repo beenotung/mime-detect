@@ -30,6 +30,8 @@
   "files": [
     "mime.types.js",
     "mime.types.d.ts",
+    "mime.ext.js",
+    "mime.ext.d.ts",
     "index.js",
     "index.d.ts"
   ],
