@@ -1,6 +1,6 @@
 {
   "name": "mime-detect",
-  "version": "1.2.2",
+  "version": "1.3.0",
   "description": "Detect mime type and encoding (aka Content-Type) from buffer, file content and filename.",
   "keywords": [
     "mime",
